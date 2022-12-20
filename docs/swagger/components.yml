@@ -1,0 +1,263 @@
+components:
+  schemas:
+    Permission:
+      type: object
+      properties:
+        permission:
+          type: string
+        module:
+          type: string
+        description:
+          type: string
+      required:
+        - permission
+        - module
+    U-Permission:
+      type: object
+      properties:
+        description:
+          type: string
+      required:
+        - description
+
+    Assign_Permission:
+      type: object
+      properties:
+        permissionId:
+          type: string
+      required:
+        - roleId
+        - permissionId
+    Assign_Role:
+      type: object
+      properties:
+        roleId:
+          type: string
+        userId:
+          type: string
+      required:
+        - roleId
+        - permissionId
+    U-Assign_Role:
+      type: object
+      properties:
+        roleId:
+          type: string
+      required:
+        - roleId
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+        countryCode:
+          type: string
+        phoneNumber:
+          type: string
+        profile:
+          type: string
+      required:
+        - name
+        - lastname
+        - email
+        - countryCode
+        - phoneNumber
+    U-User:
+      type: object
+      properties:
+        name:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+        countryCode:
+          type: string
+        phoneNumber:
+          type: string
+      required:
+        - name
+        - lastname
+        - email
+        - countryCode
+        - phoneNumber
+
+    changePsswd:
+      type: object
+      properties:
+        oldPassword:
+          type: string
+        password:
+          type: string
+        password_confirmation:
+          type: string
+      required:
+        - oldPassword
+        - password
+        - password_confirmation
+
+    Basic_Model:
+      type: object
+      properties:
+        designation:
+          type: string
+        description:
+          type: string
+      required:
+        - designation
+        - description
+
+    Driver:
+      type: object
+      properties:
+        name:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+        countryCode:
+          type: string
+        phoneNumber:
+          type: string
+        cardType:
+          type: string
+        cardTypeId:
+          type: string
+        cardImage:
+          type: string
+      required:
+        - name
+        - lastname
+        - email
+        - countryCode
+        - phoneNumber
+        - cardType
+        - cardTypeId
+        - cardImage
+
+    UDriver:
+      type: object
+      properties:
+        name:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+        countryCode:
+          type: string
+        phoneNumber:
+          type: string
+      required:
+        - name
+        - lastname
+        - email
+        - countryCode
+        - phoneNumber
+
+    UInfo-Driver:
+      type: object
+      properties:
+        cardType:
+          type: string
+        cardTypeId:
+          type: string
+        cardImage:
+          type: string
+      required:
+        - cardType
+        - cardTypeId
+        - cardImage
+    TWallet:
+      type: object
+      properties:
+        model:
+          type: string
+        password:
+          type: string
+      required:
+        - model
+        - password
+    Agent:
+      type: object
+      properties:
+        name:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+        countryCode:
+          type: string
+        phoneNumber:
+          type: string
+        officeAddress:
+          type: string
+        description:
+          type: string
+      required:
+        - name
+        - lastname
+        - email
+        - countryCode
+        - phoneNumber
+        - cardType
+        - officeAddress
+        - description
+
+    UInfo-Agent:
+      type: object
+      properties:
+        officeAddress:
+          type: string
+        description:
+          type: string
+      required:
+        - officeAddress
+        - description
+        - cardImage
+
+    WalletChangePsswd:
+      type: object
+      properties:
+        oldPassword:
+          type: string
+        password:
+          type: string
+        password_confirmation:
+          type: string
+        model:
+          type: string
+      required:
+        - oldPassword
+        - password
+        - password_confirmation
+        - model
+
+    great_response:
+      type: object
+      properties:
+        status:
+          type: boolean
+        data:
+          type: object
+    twallet_response:
+      type: object
+      properties:
+        status:
+          type: boolean
+        data:
+          token: object
+
+    error_response:
+      type: object
+      properties:
+        status:
+          type: boolean
+        message:
+          type: string

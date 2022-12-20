@@ -1,0 +1,360 @@
+/api/v1/agents:
+  get:
+    tags:
+      - Agents
+    security:
+      - bearerAuth: []
+    description: get All agents.
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+  post:
+    tags:
+      - Agents
+    security:
+      - bearerAuth: []
+    description: add Agents.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Agent"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+  put:
+    tags:
+      - Agents
+    security:
+      - bearerAuth: []
+    description: Update Agents.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UDriver"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/agents/signin:
+  post:
+    tags:
+      - Agents
+    description: Agent Login.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/login"
+    responses:
+      200:
+        description: Compy
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/agents/update/{id}:
+  put:
+    tags:
+      - Agents
+    security:
+      - bearerAuth: []
+    description: Update info Agents.
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UInfo-Driver"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/agents/change/profile:
+  put:
+    security:
+      - bearerAuth: []
+    tags:
+      - Agents
+    description: update Agents's profile.
+    requestBody:
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              profile:
+                type: string
+                format: binary
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/agents/change/psswd:
+  put:
+    security:
+      - bearerAuth: []
+    tags:
+      - Agents
+    description: update Agents's psswd.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/changePsswd"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/agents/logout:
+  post:
+    security:
+      - bearerAuth: []
+    tags:
+      - Agents
+    description: Agents logOut.
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+# /api/v1/agents/status/{id}:
+#   put:
+#     tags:
+#       - Agents
+#     security:
+#       - bearerAuth: []
+#     description: update status of Agents.
+#     parameters:
+#       - in: path
+#         name: id
+#         schema:
+#           type: string
+#     responses:
+#       200:
+#         description: ok
+#         content:
+#           application/json:
+#             schema:
+#               $ref: "#/components/schemas/great_response"
+
+#       422 | 404:
+#         description: En cas d'echec
+#         content:
+#           application/json:
+#             schema:
+#               $ref: "#/components/schemas/error_response"
+
+/api/v1/wallet/account/agent:
+  get:
+    tags:
+      - Agents
+    security:
+      - bearerAuth: []
+    description: get Agent's wallet.
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+  post:
+    tags:
+      - Agents
+    security:
+      - bearerAuth: []
+    description: get Token fro wallet.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/TWallet"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/twallet_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+  put:
+    tags:
+      - Agents
+    security:
+      - bearerAuth: []
+    description: Change wallet's psswd.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/WalletChangePsswd"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/agent/transactions:
+  get:
+    tags:
+      - Agents
+    security:
+      - bearerAuth: []
+    description: get all Agent Transaction.
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/agent/wallet/recharges:
+  get:
+    tags:
+      - Agents
+    security:
+      - bearerAuth: []
+    description: get all recharge agent wallet.
+    parameters:
+      - in: query
+        name: startDate
+        schema:
+          type: string
+      - in: query
+        name: endDate
+        schema:
+          type: string
+
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"

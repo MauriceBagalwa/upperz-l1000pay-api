@@ -1,0 +1,307 @@
+/api/v1/drivers:
+  get:
+    tags:
+      - Drivers
+    security:
+      - bearerAuth: []
+    description: get All Drivers.
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+  post:
+    tags:
+      - Drivers
+    security:
+      - bearerAuth: []
+    description: add Driver.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Driver"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+  put:
+    tags:
+      - Drivers
+    security:
+      - bearerAuth: []
+    description: Update Driver.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UDriver"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+/api/v1/driver/signin:
+  post:
+    tags:
+      - Drivers
+    description: Driver Login.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/login"
+    responses:
+      200:
+        description: Compy
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/drivers/update/{id}:
+  put:
+    tags:
+      - Drivers
+    security:
+      - bearerAuth: []
+    description: Update info Driver.
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UInfo-Driver"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/drivers/change/profile:
+  put:
+    security:
+      - bearerAuth: []
+    tags:
+      - Drivers
+    description: update Driver's profile.
+    requestBody:
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              profile:
+                type: string
+                format: binary
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/drivers/change/psswd:
+  put:
+    security:
+      - bearerAuth: []
+    tags:
+      - Drivers
+    description: update Driver's psswd.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/changePsswd"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/drivers/logout:
+  post:
+    security:
+      - bearerAuth: []
+    tags:
+      - Drivers
+    description: Driver logOut.
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/Drivers/status/{id}:
+  put:
+    tags:
+      - Drivers
+    security:
+      - bearerAuth: []
+    description: update status of Driver.
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+/api/v1/drivers/wallet/account/driver:
+  get:
+    tags:
+      - Drivers
+    security:
+      - bearerAuth: []
+    description: get driver's wallet.
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/wallet/account/driver:
+  post:
+    tags:
+      - Drivers
+    security:
+      - bearerAuth: []
+    description: get Token fro wallet.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/TWallet"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/twallet_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+  put:
+    tags:
+      - Drivers
+    security:
+      - bearerAuth: []
+    description: Change wallet's psswd.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/WalletChangePsswd"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"

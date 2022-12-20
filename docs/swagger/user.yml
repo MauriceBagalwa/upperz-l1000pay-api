@@ -1,0 +1,258 @@
+/api/v1/users:
+  get:
+    tags:
+      - Users
+    security:
+      - bearerAuth: []
+    description: get All Users.
+
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+  post:
+    tags:
+      - Users
+    security:
+      - bearerAuth: []
+    description: add User.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+  put:
+    tags:
+      - Users
+    security:
+      - bearerAuth: []
+    description: Update User.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/U-User"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/users/signin:
+  post:
+    tags:
+      - Users
+    description: User Login.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/login"
+    responses:
+      200:
+        description: Compy
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/users/change/profile:
+  put:
+    security:
+      - bearerAuth: []
+    tags:
+      - Users
+    description: update user's profile.
+    requestBody:
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              profile:
+                type: string
+                format: binary
+    responses:
+      200:
+        description: Compy
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/users/change/psswd:
+  put:
+    security:
+      - bearerAuth: []
+    tags:
+      - Users
+    description: update user's psswd.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/changePsswd"
+    responses:
+      200:
+        description: Compy
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/users/logout:
+  post:
+    security:
+      - bearerAuth: []
+    tags:
+      - Users
+    description: user logOut.
+    responses:
+      200:
+        description: Compy
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/users/status/{id}:
+  put:
+    tags:
+      - Users
+    security:
+      - bearerAuth: []
+    description: update status of User.
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/users/reset-password/{id}:
+  put:
+    tags:
+      - Users
+    security:
+      - bearerAuth: []
+    description: Reseet psswd of User.
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+/api/v1/users/{id}:
+  delete:
+    tags:
+      - Users
+    security:
+      - bearerAuth: []
+    description: delete User.
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"

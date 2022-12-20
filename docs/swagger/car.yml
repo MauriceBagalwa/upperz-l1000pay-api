@@ -1,0 +1,332 @@
+/api/v1/cars:
+  get:
+    tags:
+      - Cars
+    security:
+      - bearerAuth: []
+    description: get all Cars.
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: number
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: number
+          default: 20
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [opérationnel, garage, non opérationnel]
+      - in: query
+        name: owner
+        schema:
+          type: string
+          enum: [personnel, entreprise]
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Compy
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomResponse"
+  post:
+    tags:
+      - Cars
+    security:
+      - bearerAuth: []
+    description: create a new customer.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Cars"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/cars/{id}:
+  put:
+    tags:
+      - Cars
+    security:
+      - bearerAuth: []
+    description: Update car.
+    parameters:
+      - in: path
+        name: carId
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Cars"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+  # get:
+  #   tags:
+  #     - Cars
+  #   security:
+  #     - bearerAuth: []
+  #   description: Show Car
+  #   parameters:
+  #     - in: path
+  #       name: carId
+  #       schema:
+  #         type: string
+  #   requestBody:
+  #     required: true
+  #     content:
+  #       application/json:
+  #         schema:
+  #           $ref: "#/components/schemas/CarStatus"
+  #   produces:
+  #     - application/json
+  #   responses:
+  #     200:
+  #       description: Compy
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: "#/components/schemas/CustomResponse"
+
+  #     422 | 404:
+  #       description: En cas d'echec
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: "#/components/schemas/Error_Response"
+
+  delete:
+    tags:
+      - Cars
+    security:
+      - bearerAuth: []
+    description: delete Car.
+    parameters:
+      - in: path
+        name: carId
+        schema:
+          type: string
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/assigncars:
+
+  get:
+    tags:
+      - Cars
+    security:
+      - bearerAuth: []
+    description: get assigns cars.
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: number
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: number
+          default: 20
+      - in: query
+        name: current
+        schema:
+          type: boolean
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+  post:
+    tags:
+      - Cars
+    description: Assign Car to Driver.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AssignCar"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/assigncars/{id}:
+  get:
+    tags:
+      - Cars
+    security:
+      - bearerAuth: []
+    description: get Historique of assign Cars.
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: number
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: number
+          default: 20
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Compy
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomResponse"
+
+#   delete:
+#     tags:
+#       - Cars
+#     security:
+#       - bearerAuth: []
+#     description: Delete assign Car
+#     parameters:
+#       - in: path
+#         name: assignCarId
+#     produces:
+#       - application/json
+#     responses:
+#       200:
+#         description: Compy
+#         content:
+#           application/json:
+#             schema:
+#               $ref: "#/components/schemas/CustomResponse"
+
+#       422 | 404:
+#         description: En cas d'echec
+#         content:
+#           application/json:
+#             schema:
+#               $ref: "#/components/schemas/Error_Response"
+
+components:
+  schemas:
+    Cars:
+      type: object
+      properties:
+        designation:
+          type: string
+        numberPlate:
+          type: string
+        mark:
+          type: string
+        chassiNumber:
+          type: string
+        places:
+          type: number
+        owner:
+          type: string
+          enum: [personnel, entreprise]
+      required:
+        - designation
+        - numberPlate
+        - makrk
+        - chassiNumber
+        - places
+        - comment
+        - owner
+
+    # updateDriver:
+    #   type: object
+    #   properties:
+    #     name:
+    #       type: string
+    #     lastname:
+    #       type: string
+    #     country_code:
+    #       type: string
+    #     phone_number:
+    #       type: string
+    #     email:
+    #       type: string
+    #   required:
+    #     - name
+    #     - lastname
+    #     - country_code
+    #     - phone_number
+    #     - email
+
+    # CarStatus:
+    #   type: object
+    #   properties:
+    #     status:
+    #       type: string
+    #   required:
+    #     - status
+
+    AssignCar:
+      type: object
+      properties:
+        carId:
+          type: string
+        driverId:
+          type: string
+      required:
+        - carId
+        - driverId
