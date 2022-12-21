@@ -1,9 +1,9 @@
 import { DateTime } from 'luxon'
-import { afterSave, BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
+import { afterSave, BaseModel, beforeSave, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import generate from "App/Utils/Generator"
-import Ride from 'App/Services/Ride.service'
+import _Ride from 'App/Services/Ride.service'
 import Service from 'App/Services/Payment.service'
-import { IRideStatus } from 'App/Models/Ride';
+import Ride, { IRideStatus } from 'App/Models/Ride';
 import WalletService from 'App/Services/Wallet.service';
 
 export enum ECommision {
@@ -40,14 +40,17 @@ export default class Payment extends BaseModel {
   @afterSave()
   public static async changeStatus(model: Payment) {
     //1
-    await Ride.Instance.update(model.rideId, { status: IRideStatus.TERMINER })
+    await _Ride.Instance.update(model.rideId, { status: IRideStatus.TERMINER })
     //2
     const cAmount = (model.amount / 100) * ECommision.VALUE
     await Service.Instance.comission({ amount: cAmount, percentage: ECommision.VALUE, ride_id: model.rideId })
 
-    const rideFind = await Ride.Instance.find({ key: 'id', value: model.rideId })
+    const rideFind = await _Ride.Instance.find({ key: 'id', value: model.rideId })
     //3
     await WalletService.Instance.rechargeDriver({ amount: (model.amount - cAmount), walletId: rideFind?.driverId as string })
 
   }
+
+  @belongsTo(() => Ride, {})
+  public ride: BelongsTo<typeof Ride>
 }

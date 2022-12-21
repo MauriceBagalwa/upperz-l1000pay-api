@@ -1,11 +1,49 @@
-/api/v1/users:
+/api/v1/rides:
   get:
     tags:
-      - Users
+      - Rides
     security:
       - bearerAuth: []
-    description: get All Users.
-
+    description: Admin gest all rides.
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: number
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: number
+          default: 100
+      - in: query
+        name: startDate
+        schema:
+          type: string
+      - in: query
+        name: endDate
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+            [
+              Demande,
+              Valider,
+              Rejeter,
+              En attente,
+              Chauffeur au lieu de depart,
+              En cours,
+              Arriver,
+              Términer,
+            ]
+      - in: query
+        name: through
+        schema:
+          type: string
+          enum: [app, card]
     responses:
       200:
         description: ok
@@ -13,24 +51,24 @@
           application/json:
             schema:
               $ref: "#/components/schemas/great_response"
-
       422 | 404:
         description: En cas d'echec
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/error_response"
+
   post:
     tags:
-      - Users
+      - Rides
     security:
       - bearerAuth: []
-    description: add User.
+    description: create ride.
     requestBody:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/User"
+            $ref: "#/components/schemas/Ride"
     responses:
       200:
         description: ok
@@ -45,150 +83,112 @@
           application/json:
             schema:
               $ref: "#/components/schemas/error_response"
-  put:
-    tags:
-      - Users
-    security:
-      - bearerAuth: []
-    description: Update User.
-    requestBody:
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/U-User"
-    responses:
-      200:
-        description: ok
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/great_response"
-
-      422 | 404:
-        description: En cas d'echec
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/error_response"
-
-/api/v1/users/signin:
+/api/v1/rides/select-driver/{id}:
   post:
     tags:
-      - Users
-    description: User Login.
+      - Rides
+    security:
+      - bearerAuth: []
+    description: select driver.
+    parameters:
+      - in: query
+        name: id
     requestBody:
       content:
         application/json:
-          schema:
-            $ref: "#/components/schemas/Login"
-    responses:
-      200:
-        description: Compy
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/great_response"
-
-      422:
-        description: En cas d'echec
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/error_response"
-
-/api/v1/users/change/profile:
-  put:
-    security:
-      - bearerAuth: []
-    tags:
-      - Users
-    description: update user's profile.
-    requestBody:
-      content:
-        multipart/form-data:
           schema:
             type: object
             properties:
-              profile:
-                type: string
-                format: binary
+              driverId:
+              type: string
     responses:
       200:
-        description: Compy
+        description: ok
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/great_response"
-
-      422:
+      422 | 404:
         description: En cas d'echec
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/error_response"
 
-/api/v1/users/change/psswd:
-  put:
+/api/v1/drivers/rides/response/{id}:
+  post:
+    tags:
+      - Rides
     security:
       - bearerAuth: []
-    tags:
-      - Users
-    description: update user's psswd.
+    description: Driver response.
+    parameters:
+      - in: query
+        name: id
     requestBody:
-      required: true
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/changePsswd"
+            type: object
+            properties:
+              status:
+              type: boolean
     responses:
       200:
-        description: Compy
+        description: ok
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/great_response"
-
-      422:
+      422 | 404:
         description: En cas d'echec
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/error_response"
 
-/api/v1/users/logout:
+/api/v1/rides/status/{id}:
+  put:
+    tags:
+      - Rides
+    security:
+      - bearerAuth: []
+    description: chnage ride status.
+    parameters:
+      - in: query
+        name: id
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/rides/amount/{id}:
   post:
+    tags:
+      - Rides
     security:
       - bearerAuth: []
-    tags:
-      - Users
-    description: user logOut.
-    responses:
-      200:
-        description: Compy
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/great_response"
-
-      422:
-        description: En cas d'echec
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/error_response"
-
-/api/v1/users/status/{id}:
-  put:
-    tags:
-      - Users
-    security:
-      - bearerAuth: []
-    description: update status of User.
+    description: Driver update ride price.
     parameters:
-      - in: path
+      - in: query
         name: id
-        schema:
-          type: string
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              amount:
+              type: number
     responses:
       200:
         description: ok
@@ -196,7 +196,6 @@
           application/json:
             schema:
               $ref: "#/components/schemas/great_response"
-
       422 | 404:
         description: En cas d'echec
         content:
@@ -204,18 +203,47 @@
             schema:
               $ref: "#/components/schemas/error_response"
 
-/api/v1/users/reset-password/{id}:
-  put:
+/api/v1/rides/customer:
+  get:
     tags:
-      - Users
+      - Rides
     security:
       - bearerAuth: []
-    description: Reseet psswd of User.
+    description: gest all customer rides.
     parameters:
-      - in: path
-        name: id
+      - in: query
+        name: page
+        schema:
+          type: number
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: number
+          default: 100
+      - in: query
+        name: startDate
         schema:
           type: string
+      - in: query
+        name: endDate
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+            [
+              Demande,
+              Valider,
+              Rejeter,
+              En attente,
+              Chauffeur au lieu de depart,
+              En cours,
+              Arriver,
+              Términer,
+            ]
     responses:
       200:
         description: ok
@@ -223,25 +251,28 @@
           application/json:
             schema:
               $ref: "#/components/schemas/great_response"
-
       422 | 404:
         description: En cas d'echec
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/error_response"
-/api/v1/users/{id}:
-  delete:
+
+/api/v1/rides/forcard:
+  post:
     tags:
-      - Users
+      - Rides
     security:
       - bearerAuth: []
-    description: delete User.
-    parameters:
-      - in: path
-        name: id
-        schema:
-          type: string
+    description: Driver generate ride for carte payment.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              amount:
+              type: number
     responses:
       200:
         description: ok
@@ -249,7 +280,6 @@
           application/json:
             schema:
               $ref: "#/components/schemas/great_response"
-
       422 | 404:
         description: En cas d'echec
         content:

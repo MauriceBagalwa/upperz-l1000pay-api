@@ -16,11 +16,12 @@ Route.group(() => {
             Route.put('rides/status/:id', 'RidesController.updateStatus')
             Route.post('drivers/rides/response/:id', 'RidesController.responseDriver')
 
-            Route.post('rides/forcarte', 'PaymentsController.rideCartePayment')
-            Route.post('payments/withcarte', 'PaymentsController.cartePayment')
+            Route.post('rides/forcard', 'PaymentsController.rideCartePayment')
+            Route.post('payments/withcard', 'PaymentsController.cartePayment')
       }).middleware("auth:driver")
 
       Route.group(() => {
             Route.get('/rides', "RidesController.index")
+            Route.get('payments', "PaymentsController.index")
       }).middleware("auth:user")
 }).prefix('api/v1')

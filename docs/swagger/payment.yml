@@ -1,0 +1,141 @@
+/api/v1/payments:
+  get:
+    tags:
+      - Payments
+    security:
+      - bearerAuth: []
+    description: Admin get all payments.
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: number
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: number
+          default: 100
+      - in: query
+        name: startDate
+        schema:
+          type: string
+      - in: query
+        name: endDate
+        schema:
+          type: string
+      # - in: query
+      #   name: through
+      #   schema:
+      #     type: string
+      #     enum: [app, card]
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+  post:
+    tags:
+      - Payments
+    security:
+      - bearerAuth: []
+    description: App payment.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/App_Payment"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+
+/api/v1/payments/withcard:
+  post:
+    tags:
+      - Payments
+    security:
+      - bearerAuth: []
+    description: Card payment.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Card_Payment"
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+/api/v1/commissions:
+  get:
+    tags:
+      - Payments
+    security:
+      - bearerAuth: []
+    description: get commissions.
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: number
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: number
+          default: 100
+      - in: query
+        name: startDate
+        schema:
+          type: string
+      - in: query
+        name: endDate
+        schema:
+          type: string
+      # - in: query
+      #   name: through
+      #   schema:
+      #     type: string
+      #     enum: [app, card]
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"

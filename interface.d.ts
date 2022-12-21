@@ -1,5 +1,5 @@
 import { ICarStatus, TYPEOWNER } from 'App/Models/Car'
-import { IRideStatus } from 'App/Models/Ride'
+import { IRideStatus, ETrough } from 'App/Models/Ride'
 import { EStausDriver } from 'App/Models/Driver'
 import { EModel } from 'App/Services/Wallet.service'
 /*
@@ -264,19 +264,20 @@ export interface IRideQuery extends IQuerry {
       distanceSup?: number
       distanceInf?: number
       status?: IRideStatus
+      through: ETrough
 }
 
 export interface IRide {
       customerId?: string
       placeDeparture: string
-      descriptionPlaceDeparture: string
+      descriptionPlaceDeparture?: string
       latDeparture: number
       lngDeparture: number
       placeArrival: string
-      descriptionPlaceArrival: string
+      descriptionPlaceArrival?: string
       latArrival: number
       lngArrival: number
-      // departure_time: DateTime
+      through?: string
       // arrival_time: DateTime
       // status: IRideStatus
 }

@@ -1,10 +1,27 @@
-/api/v1/drivers:
+/api/v1/customers:
   get:
     tags:
-      - Drivers
+      - Customers
     security:
       - bearerAuth: []
-    description: get All Drivers.
+    description: get all Customer.
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: number
+          default: 1
+      - in: query
+        name: limit
+        schema:
+          type: number
+          default: 20
+      - in: query
+        name: status
+        schema:
+          type: boolean
+    produces:
+      - application/json
     responses:
       200:
         description: ok
@@ -12,23 +29,15 @@
           application/json:
             schema:
               $ref: "#/components/schemas/great_response"
-      422 | 404:
-        description: En cas d'echec
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/error_response"
   post:
     tags:
-      - Drivers
-    security:
-      - bearerAuth: []
-    description: add Driver.
+      - Customers
+    description: add Customer.
     requestBody:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Driver"
+            $ref: "#/components/schemas/User"
     responses:
       200:
         description: ok
@@ -45,15 +54,15 @@
               $ref: "#/components/schemas/error_response"
   put:
     tags:
-      - Drivers
+      - Customers
     security:
       - bearerAuth: []
-    description: Update Driver.
+    description: Update User.
     requestBody:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/UDriver"
+            $ref: "#/components/schemas/updateCustomer"
     responses:
       200:
         description: ok
@@ -68,16 +77,47 @@
           application/json:
             schema:
               $ref: "#/components/schemas/error_response"
-/api/v1/driver/signin:
+
+/api/v1/customers/signin:
   post:
     tags:
-      - Drivers
-    description: Driver Login.
+      - Customers
+    description: User Login.
     requestBody:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Login"
+            $ref: "#/components/schemas/CustomerLogin"
+    responses:
+      200:
+        description: Compy
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+/api/v1/customers/change/profile:
+  put:
+    security:
+      - bearerAuth: []
+    tags:
+      - Customers
+    description: update user's profile.
+    requestBody:
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              profile:
+                type: string
+                format: binary
     responses:
       200:
         description: Compy
@@ -93,76 +133,13 @@
             schema:
               $ref: "#/components/schemas/error_response"
 
-/api/v1/drivers/update/{id}:
-  put:
-    tags:
-      - Drivers
-    security:
-      - bearerAuth: []
-    description: Update info Driver.
-    parameters:
-      - in: path
-        name: id
-        schema:
-          type: string
-    requestBody:
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/UInfo-Driver"
-    responses:
-      200:
-        description: ok
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/great_response"
-
-      422 | 404:
-        description: En cas d'echec
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/error_response"
-
-/api/v1/drivers/change/profile:
+/api/v1/customers/change/password:
   put:
     security:
       - bearerAuth: []
     tags:
-      - Drivers
-    description: update Driver's profile.
-    requestBody:
-      content:
-        multipart/form-data:
-          schema:
-            type: object
-            properties:
-              profile:
-                type: string
-                format: binary
-    responses:
-      200:
-        description: ok
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/great_response"
-
-      422:
-        description: En cas d'echec
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/error_response"
-
-/api/v1/drivers/change/psswd:
-  put:
-    security:
-      - bearerAuth: []
-    tags:
-      - Drivers
-    description: update Driver's psswd.
+      - Customers
+    description: update customer's psswd.
     requestBody:
       required: true
       content:
@@ -171,7 +148,7 @@
             $ref: "#/components/schemas/changePsswd"
     responses:
       200:
-        description: ok
+        description: Compy
         content:
           application/json:
             schema:
@@ -184,16 +161,16 @@
             schema:
               $ref: "#/components/schemas/error_response"
 
-/api/v1/drivers/logout:
+/api/v1/customers/logout:
   post:
     security:
       - bearerAuth: []
     tags:
-      - Drivers
-    description: Driver logOut.
+      - Customers
+    description: user logOut.
     responses:
       200:
-        description: ok
+        description: Compy
         content:
           application/json:
             schema:
@@ -206,13 +183,66 @@
             schema:
               $ref: "#/components/schemas/error_response"
 
-/api/v1/Drivers/status/{id}:
-  put:
+# /api/v1/Customers/status/{id}:
+#   put:
+#     tags:
+#       - Customers
+#     security:
+#       - bearerAuth: []
+#     description: update status of User.
+#     parameters:
+#       - in: path
+#         name: id
+#         schema:
+#           type: string
+#     responses:
+#       200:
+#         description: ok
+#         content:
+#           application/json:
+#             schema:
+#               $ref: "#/components/schemas/great_response"
+
+#       422 | 404:
+#         description: En cas d'echec
+#         content:
+#           application/json:
+#             schema:
+#               $ref: "#/components/schemas/error_response"
+
+# /api/v1/Customers/reset-password/{id}:
+#   put:
+#     tags:
+#       - Customers
+#     security:
+#       - bearerAuth: []
+#     description: Reseet psswd of User.
+#     parameters:
+#       - in: path
+#         name: id
+#         schema:
+#           type: string
+#     responses:
+#       200:
+#         description: ok
+#         content:
+#           application/json:
+#             schema:
+#               $ref: "#/components/schemas/great_response"
+
+#       422 | 404:
+#         description: En cas d'echec
+#         content:
+#           application/json:
+#             schema:
+#               $ref: "#/components/schemas/error_response"
+/api/v1/customers/{id}:
+  get:
     tags:
-      - Drivers
+      - Customers
     security:
       - bearerAuth: []
-    description: update status of Driver.
+    description: show customer.
     parameters:
       - in: path
         name: id
@@ -232,13 +262,38 @@
           application/json:
             schema:
               $ref: "#/components/schemas/error_response"
-/api/v1/drivers/wallet/account/driver:
-  get:
+  delete:
     tags:
-      - Drivers
+      - Customers
     security:
       - bearerAuth: []
-    description: get driver's wallet.
+    description: delete User.
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+    responses:
+      200:
+        description: ok
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/great_response"
+
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
+/api/v1/cutsomer/wallet/account/customer:
+  get:
+    tags:
+      - Customers
+    security:
+      - bearerAuth: []
+    description: get Custoner's wallet.
     responses:
       200:
         description: ok
@@ -253,10 +308,9 @@
             schema:
               $ref: "#/components/schemas/error_response"
 
-/api/v1/wallet/account/driver:
   post:
     tags:
-      - Drivers
+      - Customers
     security:
       - bearerAuth: []
     description: get Token fro wallet.
@@ -282,7 +336,7 @@
 
   put:
     tags:
-      - Drivers
+      - Customers
     security:
       - bearerAuth: []
     description: Change wallet's psswd.
@@ -306,24 +360,14 @@
             schema:
               $ref: "#/components/schemas/error_response"
 
-/api/v1/drivers/rides:
+/api/v1/cutsomer/recharges:
   get:
     tags:
-      - Drivers
+      - Customers
     security:
       - bearerAuth: []
-    description: gest all driver's rides.
+    description: get Custoner's recharge wallet.
     parameters:
-      - in: query
-        name: page
-        schema:
-          type: number
-          default: 1
-      - in: query
-        name: limit
-        schema:
-          type: number
-          default: 100
       - in: query
         name: startDate
         schema:
@@ -332,21 +376,6 @@
         name: endDate
         schema:
           type: string
-      - in: query
-        name: status
-        schema:
-          type: string
-          enum:
-            [
-              Demande,
-              Valider,
-              Rejeter,
-              En attente,
-              Chauffeur au lieu de depart,
-              En cours,
-              Arriver,
-              Términer,
-            ]
     responses:
       200:
         description: ok

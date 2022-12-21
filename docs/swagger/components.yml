@@ -183,6 +183,16 @@ components:
       required:
         - model
         - password
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
     Agent:
       type: object
       properties:
@@ -238,6 +248,138 @@ components:
         - password
         - password_confirmation
         - model
+    Customer:
+      type: object
+      properties:
+        name:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+        countryCode:
+          type: string
+        phoneNumber:
+          type: string
+        password:
+          type: string
+      required:
+        - name
+        - lastname
+        - email
+        - countryCode
+        - phoneNumber
+        - password
+
+    CustomerLogin:
+      type: object
+      properties:
+        email:
+          type: string
+        countryCode:
+          type: string
+        phoneNumber:
+          type: string
+        password:
+          type: string
+      required:
+        - password
+    updateCustomer:
+      type: object
+      properties:
+        name:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+        countryCode:
+          type: string
+        phoneNumber:
+          type: string
+      required:
+        - name
+        - lastname
+        - email
+        - countryCode
+        - phoneNumber
+
+    AgentRecharge:
+      type: object
+      properties:
+        numberWallet:
+          type: string
+        amount:
+          type: number
+      required:
+        - numberWallet
+        - amount
+
+    AgentMakeTrans:
+      type: object
+      properties:
+        wallet_number:
+          type: string
+        amount:
+          type: number
+        password:
+          type: string
+      required:
+        - wallet_number
+        - amount
+        - password
+
+    Ride:
+      type: object
+      properties:
+        placeDeparture:
+          type: string
+        descriptionPlaceDeparture:
+          type: number
+        latDeparture:
+          type: number
+        lngDeparture:
+          type: number
+        placeArrival:
+          type: string
+        descriptionPlaceArrival:
+          type: number
+        latArrival:
+          type: number
+        lngArrival:
+          type: number
+      required:
+        - placeDeparture
+        - latDeparture
+        - lngDeparture
+        - placeArrival
+        - latArrival
+        - lngArrival
+        
+    App_Payment:
+      type: object
+      properties:
+        ride_id:
+          type: string
+        password:
+          type: string
+      required:
+        - ride_id
+        - password
+
+    Card_Payment:
+      type: object
+      properties:
+        ride_id:
+          type: string
+        number_wallet:
+          type: string
+        password:
+          type: string
+      required:
+        - ride_id
+        - number_wallet
+        - password
 
     great_response:
       type: object

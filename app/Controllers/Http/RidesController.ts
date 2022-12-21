@@ -5,7 +5,7 @@ import RideService, { modelDriver } from 'App/Services/Ride.service';
 import DriverService from 'App/Services/Driver.service';
 import RideValidator from 'App/Validators/RideValidator';
 import { EStausDriver } from 'App/Models/Driver';
-import { IRideStatus } from 'App/Models/Ride';
+import { ETrough, IRideStatus } from 'App/Models/Ride';
 import i from "interface"
 import calcul from "App/Utils/Calculator"
 
@@ -24,9 +24,9 @@ export default class RidesController extends RideValidator {
 
       public async index({ request, response }: HttpContextContract) {
             try {
-                  const { page = 1, limit = 100, orderBy = "created_at", customerId, distanceSup, distanceInf, driverId, startDate, endDate, status } = request.qs()
+                  const { page = 1, limit = 100, orderBy = "created_at", customerId, distanceSup, distanceInf, driverId, startDate, endDate, status, through } = request.qs()
 
-                  const data = await this.ride.getAll({ page, limit, orderBy, customerId, distanceSup, distanceInf, driverId, startDate, endDate, status })
+                  const data = await this.ride.getAll({ page, limit, orderBy, customerId, distanceSup, distanceInf, driverId, startDate, endDate, status, through })
                   response.ok({ status: true, data })
             } catch (error) {
                   Logger.error(`Error : ${error.message}`)
@@ -36,10 +36,10 @@ export default class RidesController extends RideValidator {
 
       public async customerRides({ request, response, auth }: HttpContextContract) {
             try {
-                  const { page = 1, limit = 100, orderBy = "created_at", distanceSup, distanceInf, driverId, startDate, endDate, status } = request.qs()
+                  const { page = 1, limit = 100, orderBy = "created_at", distanceSup, distanceInf, driverId, startDate, endDate, status, through } = request.qs()
 
                   const id = auth.use('customer').user!.id
-                  const data = await this.ride.getAll({ page, limit, orderBy, customerId: id, distanceSup, distanceInf, driverId, startDate, endDate, status })
+                  const data = await this.ride.getAll({ page, limit, orderBy, customerId: id, distanceSup, distanceInf, driverId, startDate, endDate, status, through })
                   response.ok({ status: true, data })
             } catch (error) {
                   Logger.error(`Error : ${error.message}`)
@@ -51,7 +51,9 @@ export default class RidesController extends RideValidator {
             const payload = await request.validate({ schema: this.v_create })
             try {
                   payload.customerId = auth.use('customer').user!.id
+                  payload.through = ETrough.APP
                   const ride = await this.ride.registre(payload)
+
 
                   const drivers = await this.driver.findDrivers({
                         busy: EStausDriver.FREE,

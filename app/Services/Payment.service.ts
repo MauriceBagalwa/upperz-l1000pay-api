@@ -22,7 +22,6 @@ export default class PaymentService {
        */
       public async getAll(params: i.IPaymentQuerry): Promise<Payment[]> {
 
-
             //1
             if (params.startDate) {
                   this.startDate = moment(`${params.startDate}`).format('YYYY-MM-DD')
@@ -38,7 +37,7 @@ export default class PaymentService {
                               .where('rides.created_at', '>=', this.startDate)
                               .where('rides.created_at', '<', this.endDate)
                   )
-                  // .query()
+                  .preload('ride')
                   .orderBy(params.orderBy, 'desc')
                   .paginate(params.page, params.limit)
       }

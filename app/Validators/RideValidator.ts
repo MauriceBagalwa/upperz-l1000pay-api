@@ -1,4 +1,5 @@
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import { ETrough } from 'App/Models/Ride'
 
 export default class RideValidator {
   // constructor() {}
@@ -7,13 +8,14 @@ export default class RideValidator {
 
     customerId: schema.string.optional([rules.uuid()]),
     placeDeparture: schema.string([rules.minLength(8), rules.maxLength(120)]),
-    descriptionPlaceDeparture: schema.string([rules.minLength(8), rules.maxLength(250)]),
+    descriptionPlaceDeparture: schema.string.optional([rules.minLength(8), rules.maxLength(250)]),
     latDeparture: schema.number(),
     lngDeparture: schema.number(),
     placeArrival: schema.string([rules.minLength(8), rules.maxLength(120)]),
-    descriptionPlaceArrival: schema.string([rules.minLength(8), rules.maxLength(250)]),
+    descriptionPlaceArrival: schema.string.optional([rules.minLength(8), rules.maxLength(250)]),
     latArrival: schema.number(),
-    lngArrival: schema.number()
+    lngArrival: schema.number(),
+    through: schema.enum.optional(Object.values(ETrough))
   })
 
   public v_param = schema.create({

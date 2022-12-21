@@ -1,5 +1,5 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
-import { IRideStatus } from 'App/Models/Ride'
+import { IRideStatus, ETrough } from 'App/Models/Ride'
 
 export default class extends BaseSchema {
   protected tableName = 'rides'
@@ -9,16 +9,17 @@ export default class extends BaseSchema {
       table.uuid('id').primary().notNullable()
       table.uuid('customer_id').references('customers.id').onDelete('CASCADE')
       table.string('place_departure').notNullable()
-      table.string('description_place_departure').notNullable()
+      table.string('description_place_departure')
       table.double('lat_departure')
       table.double('lng_departure')
 
-      table.string('place_arrival')
-      table.string('description_place_arrival').notNullable()
+      table.string('place_arrival').notNullable()
+      table.string('description_place_arrival')
       table.double('lat_arrival')
       table.double('lng_arrival')
       table.double('distance')
       table.string('unite').defaultTo('km')
+      table.enum('through', Object.values(ETrough))
 
 
       table.uuid('driver_id').unsigned().references('drivers.id').onDelete('CASCADE')

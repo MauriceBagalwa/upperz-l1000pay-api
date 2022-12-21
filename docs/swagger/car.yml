@@ -25,16 +25,17 @@
         name: owner
         schema:
           type: string
-          enum: [personnel, entreprise]
+          # enum: [personnel, entreprise]
     produces:
       - application/json
     responses:
       200:
-        description: Compy
+        description: ok
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CustomResponse"
+              $ref: "#/components/schemas/great_response"
+              
   post:
     tags:
       - Cars
@@ -152,7 +153,6 @@
               $ref: "#/components/schemas/error_response"
 
 /api/v1/assigncars:
-
   get:
     tags:
       - Cars
@@ -233,11 +233,17 @@
       - application/json
     responses:
       200:
-        description: Compy
+        description: ok
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CustomResponse"
+              $ref: "#/components/schemas/great_response"
+      422 | 404:
+        description: En cas d'echec
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/error_response"
 
 #   delete:
 #     tags:

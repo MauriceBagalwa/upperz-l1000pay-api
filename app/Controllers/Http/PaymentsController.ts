@@ -5,7 +5,7 @@ import Logger from "@ioc:Adonis/Core/Logger";
 import PaymentService from "App/Services/Payment.service";
 import RideService from "App/Services/Ride.service";
 import PaymentValidator from "App/Validators/PaymentValidator";
-import { IRideStatus } from 'App/Models/Ride';
+import { ETrough, IRideStatus } from 'App/Models/Ride';
 import { inject } from "@adonisjs/fold";
 import WalletService, { EModel } from "App/Services/Wallet.service";
 import Hash from "@ioc:Adonis/Core/Hash";
@@ -37,6 +37,8 @@ export default class PaymentsController extends PaymentValidator {
                   const rideFind = await this.ride.find({ key: 'id', value: payload.ride_id, })
                   if (rideFind?.status !== IRideStatus.EN_ATTENTE_PAIEMNT) return response.notFound({ status: false, message: 'Ride not found.' })
 
+                  if (rideFind.through !== ETrough.APP)
+                        return response.conflict({ status: false, message: 'Echec de paiement' })
                   //2
                   const findWallet = await this.wallet.findWallet(EModel.CUSTOMER, { key: 'customer_id', value: rideFind.customerId })
                   if (!findWallet) return response.notFound({ status: false, message: 'Wallet not Found.' })
@@ -78,7 +80,8 @@ export default class PaymentsController extends PaymentValidator {
                         "placeArrival": "-",
                         "descriptionPlaceArrival": "-",
                         "latArrival": 0,
-                        "lngArrival": 0
+                        "lngArrival": 0,
+                        "through": ETrough.CARD
                   }
 
                   const rideGenerate = await this.ride.registre(ride)

@@ -6,6 +6,7 @@ import i from "interface"
 export type modelDriver = Driver
 export type rideStatus = IRideStatus
 export default class RideService {
+
       private ride = Ride
       startDate: string
       endDate: string
@@ -29,14 +30,31 @@ export default class RideService {
        * @returns An array of Role objects or null.
        */
       public async getAll(params: i.IRideQuery): Promise<Ride[] | null> {
+
+            if (params.startDate) {
+                  this.startDate = moment(`${params.startDate}`).format('YYYY-MM-DD')
+                  this.endDate = moment(`${!params.endDate ? params.startDate : params.endDate}`)
+                        .add(1, 'days')
+                        .format('YYYY-MM-DD')
+            }
+
             return this.ride
                   .query()
-                  // .if(params.customerId, (query) => {
-                  //       query.where('customer_id', params.customerId)
-                  // })
-                  // .if(params.driverId, (query) => {
-                  //       query.where('driver_id', params.driverId as string)
-                  // })
+                  .if(params.customerId, (query) => {
+                        query.where('customer_id', params.customerId)
+                  })
+                  .if(params.driverId, (query) => {
+                        query.where('driver_id', params.driverId as string)
+                  })
+                  .if(params.through, (query) => {
+                        query.where('through', params.through)
+                  })
+                  .if(params.startDate, (query) =>
+                        query
+                              .where('rides.created_at', '>=', this.startDate)
+                              .where('rides.created_at', '<', this.endDate)
+                  )
+
                   // .if(params.distanceSup, (query) => {
                   //       query.where('distance', ">=", params.distanceSup as number)
                   // })

@@ -17,6 +17,10 @@ export enum IRideStatus {
   ARRIVER = 'Arriver',
   TERMINER = 'Términer'
 }
+export enum ETrough {
+  APP = 'app',
+  CARD = 'card'
+}
 
 export default class Ride extends BaseModel {
   @column({ isPrimary: true })
@@ -51,8 +55,12 @@ export default class Ride extends BaseModel {
 
   @column()
   public distance: number
+
   @column()
   public unite: string
+
+  @column()
+  public through: string
 
   @column({ serializeAs: 'driver' })
   public driverId: string

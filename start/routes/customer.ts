@@ -11,7 +11,7 @@ Route.group(() => {
             Route.put('customers/update', "CustomersController.update")
             Route.put('customers/change/password', "CustomersController.changedPassword")
             Route.put('customers/change/profile', "CustomersController.updateProfile")
-            Route.post('customers/logOut', "CustomersController.logOut")
+            Route.post('customers/logout', "CustomersController.logOut")
 
             Route.post('customers/wallet', 'WalletsController.walletToken')
             Route.put('customers/wallet', 'WalletsController._updatePsswd')

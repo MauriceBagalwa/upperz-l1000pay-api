@@ -12,7 +12,7 @@ Route.group(() => {
       Route.put('/users/change/psswd', "UsersController.updatePassword")
       Route.put('/users/status/:id', "UsersController.accountStatus")
       Route.put('/users/reset-password/:id', "UsersController.resetPassword")
-      Route.post('/users/logOut', "UsersController.logOut")
+      Route.post('/users/logout', "UsersController.logOut")
       Route.get('/users/transations', 'UsersController.transations')
       Route.group(() => {
             Route.post('/transations', 'UsersController.makeTransation')
